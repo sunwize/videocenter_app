@@ -2,14 +2,16 @@
   <div id="app" class="dark-theme">
     <Menu v-if="!isMobileDevice()"></Menu>
     <MobileMenu v-else></MobileMenu>
-    <router-view></router-view>
+    <keep-alive>
+      <!-- Padding bottom for fixed bottom menu for small devices -->
+      <router-view class="pb-4 pb-md-0"></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
   import Menu from '@/components/Menu'
   import MobileMenu from "@/components/MobileMenu";
-  import {isMobileDevice} from "@/helpers/utils";
 
   export default {
     name: 'app',
@@ -17,9 +19,12 @@
       Menu,
       MobileMenu
     },
+    mounted() {
+      document.title = "Video Center"
+    },
     methods: {
       isMobileDevice() {
-        return isMobileDevice();
+        return this.$store.getters.isMobileDevice;
       }
     }
   }
@@ -30,7 +35,7 @@
     font-family: 'Roboto', sans-serif;
     text-align: center;
     color: white;
-    overflow: hidden;
+    overflow: auto;
     height: 100%;
   }
 

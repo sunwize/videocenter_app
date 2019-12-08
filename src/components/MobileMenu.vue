@@ -90,7 +90,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
     .top-navbar {
         height: 47px;
         background-color: rgba(0, 0, 0, 0.3);
@@ -183,15 +183,16 @@
     }
 
     .bottom-navbar {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: #1e2b37;
         position: fixed;
         bottom: 0;
         width: 100%;
         display: flex;
         justify-content: space-between;
+        z-index: 1000;
 
         .link {
-            padding: 1.2% 8% 0.5%;
+            padding: 1.5% 8% 1% 8%;
             color: rgba(255, 255, 255, 0.45);
             text-decoration: none;
         }
@@ -201,11 +202,12 @@
         }
 
         svg {
-            font-size: 20pt;
+            font-size: 18pt;
         }
 
         .text {
             font-size: 8pt;
+            line-height: 12px;
         }
     }
 </style>
