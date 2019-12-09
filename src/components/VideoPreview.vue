@@ -1,13 +1,9 @@
 <template>
-    <div style="cursor: pointer">
-        <div class="preview-container" @click="$router.push('/video/' + id)">
-            <b-img class="preview" :src="`https://i.ytimg.com/vi/${id}/mqdefault.jpg`"></b-img>
-        </div>
-        <div>
-            <p class="title">{{ title }}</p>
-            <p class="channel">{{ channel }}</p>
-            <p class="views">{{ kFormat(views) }} vues</p>
-        </div>
+    <div @click="$router.push('/video/' + id)" class="preview-container" style="cursor: pointer">
+        <b-img class="preview" :src="`https://i.ytimg.com/vi/${id}/mqdefault.jpg`"></b-img>
+        <p class="title">{{ title }}</p>
+        <p class="channel">{{ channel }}</p>
+        <p class="views">{{ kFormat(views) }} vues</p>
     </div>
 </template>
 
@@ -40,8 +36,13 @@
     }
 
     .preview-container {
-        resize: both;
-        overflow: hidden;
+        transition-duration: 0.3s;
+        transition-property: transform;
+        transition-timing-function: ease-out;
+
+        &:hover, &:focus, &:active {
+            transform: translateY(-8px);
+        }
     }
 
     .preview {

@@ -1,9 +1,15 @@
 <template>
   <b-container>
+    <div v-if="loading" class="m-auto pt-5">
+      <b-spinner label="Loading..."></b-spinner>
+    </div>
     <b-row class="py-md-5 py-3">
-      <b-col v-for="video in videos" :key="video.id" cols="12" md="3">
+      <b-col v-for="video in videos.slice(0, max)" :key="video.id" cols="12" md="3">
         <video-player class="mb-3" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views"></video-player>
       </b-col>
+      <div v-if="max < 48 && videos.length > 0" @click="loadMore" class="plus mx-auto mb-4 mb-md-0 mt-0 mt-md-3">
+        PLUS
+      </div>
     </b-row>
   </b-container>
 </template>
@@ -12,10 +18,12 @@
   import * as axios from 'axios'
 
   export default {
-    name: 'HelloWorld',
+    name: 'Home',
     data() {
       return {
-        videos: []
+        videos: [],
+        max: 16,
+        loading: false
       }
     },
     mounted() {
@@ -23,14 +31,20 @@
     },
     methods: {
       loadVideos() {
-        axios.get(`http://localhost:3000/trends`).then(res => {
+        this.loading = true;
+        axios.get(`http://localhost:3000/videos/trends/48`).then(res => {
           // eslint-disable-next-line no-console
           console.log(res);
           this.videos = res.data;
+          this.loading = false;
         }).catch(err => {
           // eslint-disable-next-line no-console
           console.log(err);
+          this.loading = false;
         });
+      },
+      loadMore() {
+        this.max += 8;
       }
     }
   }
@@ -38,5 +52,14 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  .plus {
+    font-size: 11pt;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
 
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
 </style>

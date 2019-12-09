@@ -1,13 +1,15 @@
 <template>
-    <b-container class="pt-3 pt-md-4">
+    <b-container class="pt-0 pt-md-4 px-0 px-md-4">
         <div class="video-container">
             <iframe class="video" :src="'https://www.youtube.com/embed/' + video.id + '/?autoplay=1'"
                     frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
         </div>
-        <h2 class="title">{{ video.title }}</h2>
-        <p class="channel">{{ video.channelTitle }} - {{ moment(video.date).locale('fr').format('D MMMM YYYY') }}</p>
-        <p class="views">{{ formatViews(video.views) }} vues</p>
+        <div class="pl-2 pl-md-0">
+            <h2 class="title">{{ video.title }}</h2>
+            <p class="channel">{{ video.channelTitle }}</p>
+            <p class="views">{{ formatViews(video.views) }} vues • {{ moment(video.date).locale('fr').format('D MMMM YYYY') }}</p>
+        </div>
     </b-container>
 </template>
 
@@ -30,7 +32,7 @@
         },
         methods: {
             loadVideo() {
-                axios.get(`http://localhost:3000/video/${this.$route.params.id}`)
+                axios.get(`http://localhost:3000/videos/${this.$route.params.id}`)
                 .then(res => {
                     this.video = res.data;
                     // eslint-disable-next-line no-console
@@ -52,6 +54,7 @@
 
 <style lang="scss" scoped>
     .video-container {
+        background-color: rgba(0, 0, 0, 0.2);
         overflow: hidden;
         padding-top: 56.25%;
         position: relative;
