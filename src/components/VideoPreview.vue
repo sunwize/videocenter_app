@@ -1,6 +1,6 @@
 <template>
     <div style="cursor: pointer">
-        <div class="preview-container">
+        <div class="preview-container" @click="$router.push('/video/' + id)">
             <b-img class="preview" :src="`https://i.ytimg.com/vi/${id}/mqdefault.jpg`"></b-img>
         </div>
         <div>

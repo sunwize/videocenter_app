@@ -2,7 +2,7 @@
   <b-container>
     <b-row class="py-md-5 py-3">
       <b-col v-for="video in videos" :key="video.id" cols="12" md="3">
-        <video-player class="mb-3" :id="video.id" :title="video.snippet.title" :channel="video.snippet.channelTitle" :views="video.statistics.viewCount"></video-player>
+        <video-player class="mb-3" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views"></video-player>
       </b-col>
     </b-row>
   </b-container>
@@ -23,10 +23,10 @@
     },
     methods: {
       loadVideos() {
-        axios.get(`https://www.googleapis.com/youtube/v3/videos/?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=40&regionCode=FR&key=${process.env.VUE_APP_YT_API_KEY}`).then(res => {
+        axios.get(`http://localhost:3000/trends`).then(res => {
           // eslint-disable-next-line no-console
           console.log(res);
-          this.videos = res.data.items;
+          this.videos = res.data;
         }).catch(err => {
           // eslint-disable-next-line no-console
           console.log(err);
