@@ -16,7 +16,7 @@ library.add(fas);
 Vue.use(BootstrapVue);
 
 Vue.component('icon', FontAwesomeIcon);
-Vue.component('video-player', VideoPreview);
+Vue.component('video-preview', VideoPreview);
 
 Vue.config.productionTip = false;
 

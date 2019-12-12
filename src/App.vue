@@ -2,10 +2,7 @@
   <div id="app" class="dark-theme">
     <Menu v-if="!isMobileDevice()"></Menu>
     <MobileMenu v-else></MobileMenu>
-    <keep-alive>
-      <!-- Padding bottom for fixed bottom menu for small devices -->
-      <router-view class="pb-4 pb-md-0"></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 </template>
 

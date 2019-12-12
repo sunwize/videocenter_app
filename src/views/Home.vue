@@ -5,9 +5,9 @@
     </div>
     <b-row class="py-md-5 py-3">
       <b-col v-for="video in videos.slice(0, max)" :key="video.id" cols="12" md="3">
-        <video-player class="mb-3" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views"></video-player>
+        <video-preview class="mb-3" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views"></video-preview>
       </b-col>
-      <div v-if="max < 48 && videos.length > 0" @click="loadMore" class="plus mx-auto mb-4 mb-md-0 mt-0 mt-md-3">
+      <div v-if="max < 48 && videos.length > 0" @click="loadMore" class="plus mx-auto mb-4 mb-lg-0 mt-0 mt-lg-3 pb-4">
         PLUS
       </div>
     </b-row>
@@ -33,8 +33,6 @@
       loadVideos() {
         this.loading = true;
         axios.get(`http://localhost:3000/videos/trends/48`).then(res => {
-          // eslint-disable-next-line no-console
-          console.log(res);
           this.videos = res.data;
           this.loading = false;
         }).catch(err => {
