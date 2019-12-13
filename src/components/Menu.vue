@@ -9,8 +9,8 @@
 
                 <!-- Center aligned nav items -->
                 <b-navbar-nav class="mx-auto" style="width: 50%">
-                    <b-nav-form class="search">
-                        <b-form-input class="search-bar" size="sm" placeholder="Rechercher"></b-form-input>
+                    <b-nav-form @submit="research" class="search">
+                        <b-form-input v-model="search" class="search-bar" size="sm" placeholder="Rechercher"></b-form-input>
                         <b-button size="sm" class="search-button my-2 my-sm-0" type="submit">
                             <icon icon="search"></icon>
                         </b-button>
@@ -45,9 +45,20 @@
 <script>
     export default {
         name: "Menu",
+        data() {
+            return {
+                search: ''
+            }
+        },
         methods: {
             reach(path) {
                 this.$router.push(path).catch(() => {});
+            },
+            research(event) {
+                if(this.search != '')
+                    this.$router.push('/search/' + this.search);
+                else
+                    event.preventDefault();
             }
         }
     }

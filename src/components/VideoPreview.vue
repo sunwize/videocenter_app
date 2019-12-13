@@ -1,14 +1,22 @@
 <template>
-    <div @click="$router.push('/video/' + id)" class="preview-container" style="cursor: pointer">
-        <b-img class="preview" :src="`https://i.ytimg.com/vi/${id}/mqdefault.jpg`"></b-img>
+    <div v-if="!sided" @click="$router.push('/video/' + id)" class="preview-container">
+        <b-img class="preview" :src="preview"></b-img>
         <p class="title">{{ title }}</p>
-        <p class="channel">{{ channel }}</p>
-        <p class="views">{{ kFormat(views) }} vues</p>
+        <p class="details">{{ channel }} • {{ kFormat(views) }} vues</p>
+    </div>
+    <div v-else @click="$router.push('/video/' + id)" class="sided-preview">
+        <span class="left-side">
+            <b-img class="preview" :src="preview"></b-img>
+        </span>
+        <span class="right-side">
+            <p class="title">{{ decodeXML(title) }}</p>
+            <p class="details">{{ channel }} • {{ kFormat(views) }} vues</p>
+        </span>
     </div>
 </template>
 
 <script>
-    import {kFormat} from "@/helpers/Utils";
+    import {kFormat, decodeXML} from "@/helpers/Utils";
 
     export default {
         name: "VideoPlayer",
@@ -16,11 +24,19 @@
             id: String,
             title: String,
             channel: String,
-            views: String
+            views: String,
+            preview: String,
+            sided: {
+                type: Boolean,
+                default: false
+            }
         },
         methods: {
             kFormat(number) {
                 return kFormat(number);
+            },
+            decodeXML(text) {
+                return decodeXML(text);
             }
         }
     }
@@ -32,6 +48,7 @@
     }
 
     .preview-container {
+        cursor: pointer;
         transition-duration: 0.3s;
         transition-property: transform;
         transition-timing-function: ease-out;
@@ -39,23 +56,59 @@
         &:hover, &:focus, &:active {
             transform: translateY(-8px);
         }
+
+        .preview {
+            width: 100%;
+        }
+
+        .title {
+            padding-top: 0.2em;
+            color: white;
+            font-size: 12pt;
+            text-align: left;
+            line-height: 20px;
+        }
+
+        .details {
+            text-align: left;
+            font-size: 11pt;
+            color: rgba(255, 255, 255, 0.6);
+        }
     }
 
-    .preview {
-        width: 100%;
-    }
+    .sided-preview {
+        display: flex;
+        cursor: pointer;
+        transition-duration: 0.3s;
+        transition-property: transform;
+        transition-timing-function: ease-out;
 
-    .title {
-        padding-top: 0.2em;
-        color: white;
-        font-size: 12pt;
-        text-align: left;
-        line-height: 20px;
-    }
+        &:hover, &:focus, &:active {
+            transform: translateX(-10px);
+        }
 
-    .channel, .views {
-        text-align: left;
-        font-size: 11pt;
-        color: rgba(255, 255, 255, 0.6);
+        .left-side {
+            width: 30%;
+            margin-right: 1em;
+
+            .preview {
+                width: 100%;
+            }
+        }
+
+        .right-side {
+            width: 70%;
+
+            .title {
+                text-align: left;
+                font-size: 14pt;
+            }
+
+            .details {
+                text-align: left;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 11pt;
+            }
+        }
     }
 </style>

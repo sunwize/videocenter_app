@@ -25,7 +25,7 @@
                 </b-button>
             </b-navbar-nav>
             <b-navbar-nav class="search-bar">
-                <b-form>
+                <b-form @submit="research">
                     <b-form-input v-model="search" ref="search" autocomplete="off" placeholder="Rechercher sur Video Center"></b-form-input>
                 </b-form>
             </b-navbar-nav>
@@ -85,6 +85,12 @@
             exitSearchMode() {
                 this.searchMode = false;
                 this.search = "";
+            },
+            research(event) {
+                if(this.search != '')
+                    this.$router.push('/search/' + this.search);
+                else
+                    event.preventDefault();
             }
         }
     }

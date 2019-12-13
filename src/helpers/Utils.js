@@ -14,3 +14,9 @@ export function spaceFormat(x) {
     else
         return '';
 }
+
+export function decodeXML(encodedString) {
+    var textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    return textArea.value;
+}
