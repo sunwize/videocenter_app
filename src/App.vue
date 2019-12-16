@@ -2,7 +2,9 @@
   <div id="app" class="dark-theme">
     <Menu v-if="!isMobileDevice()"></Menu>
     <MobileMenu v-else></MobileMenu>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

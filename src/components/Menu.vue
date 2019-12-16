@@ -10,7 +10,7 @@
                 <!-- Center aligned nav items -->
                 <b-navbar-nav class="mx-auto" style="width: 50%">
                     <b-nav-form @submit="research" class="search">
-                        <b-form-input v-model="search" class="search-bar" size="sm" placeholder="Rechercher"></b-form-input>
+                        <b-form-input v-model="search" class="search-bar" size="sm" placeholder="Rechercher" maxlength="250" trim></b-form-input>
                         <b-button size="sm" class="search-button my-2 my-sm-0" type="submit">
                             <icon icon="search"></icon>
                         </b-button>
@@ -19,7 +19,7 @@
 
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown right>
+                    <b-nav-item-dropdown v-if="isAuthenticated" right>
                         <template v-slot:button-content>
                             <icon style="font-size: 15pt" icon="user"></icon>
                         </template>
@@ -36,9 +36,16 @@
                             <span class="pl-4">Déconnexion</span>
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <div v-b-modal.sign-in-modal class="signin" v-else>
+                        <icon icon="user" class="mr-2"></icon>
+                        <span class="link" to="/signin">Se connecter</span>
+                    </div>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
+        <b-modal ref="signin" id="sign-in-modal" title="Se connecter" hide-footer>
+            <sign-in-form :before-sign-in="beforeSignIn" :before-sign-up="beforeSignUp"></sign-in-form>
+        </b-modal>
     </div>
 </template>
 
@@ -50,6 +57,11 @@
                 search: ''
             }
         },
+        computed: {
+            isAuthenticated() {
+                return this.$store.getters.isAuthenticated;
+            }
+        },
         methods: {
             reach(path) {
                 this.$router.push(path).catch(() => {});
@@ -59,6 +71,12 @@
                     this.$router.push('/search/' + this.search);
                 else
                     event.preventDefault();
+            },
+            beforeSignIn() {
+                this.$refs.signin.hide();
+            },
+            beforeSignUp() {
+                this.$refs.signin.hide();
             }
         }
     }
@@ -101,6 +119,23 @@
             border: 1px solid rgba(255, 255, 255, 0);
             border-radius: 0;
             font-size: 12pt;
+        }
+    }
+
+    .signin {
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        padding: 0.5em;
+        border-radius: 5px;
+        font-size: 11pt;
+        cursor: pointer;
+
+        span, svg {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+
+        &:active {
+            background-color: rgba(255, 255, 255, 0.2);
         }
     }
 </style>

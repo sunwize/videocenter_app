@@ -1,5 +1,8 @@
 <template>
     <b-container class="pt-3">
+        <div v-if="loading" class="m-auto pt-5">
+            <b-spinner label="Loading..."></b-spinner>
+        </div>
         <div v-for="video in videos" :key="video.id" class="mx-auto mb-2" :class="!isMobileDevice() ? 'w-75' : ''">
             <video-preview :sided="!isMobileDevice()" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views" :preview="video.preview"></video-preview>
         </div>
@@ -13,7 +16,8 @@
         name: "Search",
         data() {
             return {
-                videos: []
+                videos: [],
+                loading: false
             }
         },
         mounted() {
@@ -24,14 +28,17 @@
         },
         methods: {
             searchVideos() {
-                axios.get(`http://localhost:3000/videos/search/${this.$route.params.keywords}`)
+                this.loading = true;
+                axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/search/${this.$route.params.keywords}`)
                 .then(res => {
                     this.videos = res.data;
                     // eslint-disable-next-line no-console
                     console.log(res);
+                    this.loading = false;
                 }).catch(err => {
                     // eslint-disable-next-line no-console
                     console.log(err);
+                    this.loading = false;
                 });
             },
             isMobileDevice() {

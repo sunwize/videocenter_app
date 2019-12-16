@@ -55,7 +55,7 @@
         methods: {
             loadVideo() {
                 this.video = {};
-                axios.get(`http://localhost:3000/videos/${this.$route.params.id}`)
+                axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/${this.$route.params.id}`)
                 .then(res => {
                     this.video = res.data;
                     // eslint-disable-next-line no-console

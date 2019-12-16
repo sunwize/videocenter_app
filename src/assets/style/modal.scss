@@ -1,0 +1,22 @@
+.modal-content {
+  border-radius: 18px;
+  border: none;
+}
+
+.modal-header {
+  background-color: #233240;
+  color: rgba(255, 255, 255, 0.9);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+
+  .close {
+    color: white;
+  }
+}
+
+.modal-body {
+  background-color: #2c3e50;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}

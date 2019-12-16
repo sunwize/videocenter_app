@@ -1,6 +1,7 @@
 $theme-colors: (
         "primary": #0074d9,
-        "danger": #ff4136
+        "danger": #ff4136,
+        "dark": #233240
 );
 
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
@@ -8,3 +9,4 @@ $theme-colors: (
 @import '../../../node_modules/bootstrap-vue/src/index.scss';
 
 @import "dropdown";
+@import "modal";

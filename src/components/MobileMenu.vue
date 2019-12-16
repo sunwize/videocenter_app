@@ -11,8 +11,11 @@
                     <b-button size="md" variant="link" @click="openSearchMode">
                         <icon icon="search"></icon>
                     </b-button>
-                    <b-button to="/account" size="md" variant="link">
+                    <b-button v-if="isAuthenticated" to="/account" size="md" variant="link">
                         <icon icon="user"></icon>
+                    </b-button>
+                    <b-button v-else size="md" variant="link" v-b-modal.sign-in-modal>
+                        <icon icon="sign-in-alt"></icon>
                     </b-button>
                 </b-nav-form>
             </b-navbar-nav>
@@ -53,6 +56,10 @@
                 <div class="text">Contacts</div>
             </router-link>
         </div>
+
+        <b-modal ref="signin" id="sign-in-modal" title="Se connecter" hide-footer>
+            <sign-in-form :before-sign-up="beforeSignUp" :before-sign-in="beforeSignIn"></sign-in-form>
+        </b-modal>
     </div>
 </template>
 
@@ -73,6 +80,9 @@
         computed: {
             filteredHistory() {
                 return this.history.filter(l => l.toLowerCase().indexOf(this.search.toLowerCase()) != -1);
+            },
+            isAuthenticated() {
+                return this.$store.getters.isAuthenticated;
             }
         },
         methods: {
@@ -91,6 +101,12 @@
                     this.$router.push('/search/' + this.search);
                 else
                     event.preventDefault();
+            },
+            beforeSignIn() {
+                this.$refs.signin.hide();
+            },
+            beforeSignUp() {
+                this.$refs.signin.hide();
             }
         }
     }

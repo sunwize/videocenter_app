@@ -32,7 +32,7 @@
     methods: {
       loadVideos() {
         this.loading = true;
-        axios.get(`http://localhost:3000/videos/trends/48`).then(res => {
+        axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/trends/48`).then(res => {
           this.videos = res.data;
           this.loading = false;
         }).catch(err => {

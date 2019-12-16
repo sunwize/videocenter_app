@@ -10,6 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import VideoPreview from "@/components/VideoPreview";
+import SignInForm from "@/components/SignInForm";
 
 library.add(fas);
 
@@ -17,6 +18,7 @@ Vue.use(BootstrapVue);
 
 Vue.component('icon', FontAwesomeIcon);
 Vue.component('video-preview', VideoPreview);
+Vue.component('sign-in-form', SignInForm);
 
 Vue.config.productionTip = false;
 
