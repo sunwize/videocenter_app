@@ -31,7 +31,7 @@
                             <span class="dropdown-icon"><icon icon="list"></icon></span>
                             <span class="pl-4">Playlists</span>
                         </b-dropdown-item>
-                        <b-dropdown-item>
+                        <b-dropdown-item @click="$store.dispatch('logout')">
                             <span class="dropdown-icon" style="font-size: 14pt;"><icon style="position: absolute; top: 2px" icon="sign-out-alt"></icon></span>
                             <span class="pl-4">Déconnexion</span>
                         </b-dropdown-item>

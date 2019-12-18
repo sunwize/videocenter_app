@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import home from './views/Home'
 import videoPage from './views/VideoPage'
 import search from './views/Search'
+import register from './views/Register'
 
 Vue.use(Router);
 
@@ -21,9 +22,14 @@ export default new Router({
             component: videoPage
         },
         {
-            path: `/search/:keywords?`,
+            path: '/search/:keywords?',
             name: 'search',
             component: search
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: register
         }
     ]
 });
