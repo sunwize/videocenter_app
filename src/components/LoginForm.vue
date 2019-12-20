@@ -42,16 +42,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .form-control {
-        background-color: rgba(0, 0, 0, 0.2);
-        color: white;
-        border: none;
-    }
-
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-    }
-
     .btn-sign-up {
         color: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(255, 255, 255, 0.9);

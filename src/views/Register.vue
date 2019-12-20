@@ -115,21 +115,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .form-control {
-        background: rgba(0, 0, 0, 0.2);
-        color: white;
-        border: none;
-
-        &:focus {
-            background-color: rgba(0, 0, 0, 0.2);
-            color: white;
-        }
-    }
-
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-    }
-
     .submit-btn {
         float: right;
         background-color: rgba(0, 0, 0, 0.2);

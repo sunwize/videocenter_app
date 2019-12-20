@@ -20,6 +20,9 @@ export default new Vuex.Store({
         },
         isAuthenticated(state) {
             return !!state.user;
+        },
+        currentUser(state) {
+            return state.user;
         }
     },
     mutations: {

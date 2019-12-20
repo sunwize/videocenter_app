@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 
 import home from './views/Home'
 import videoPage from './views/VideoPage'
 import search from './views/Search'
 import register from './views/Register'
-import store from './store'
+import account from './views/Account'
+import playlists from './views/Playlists'
 
 Vue.use(Router);
 
-/*
 function ifAuthenticated(to, from, next) {
     if (store.getters.isAuthenticated)
         next();
     else
         next('/');
-}*/
+}
 
 function ifNotAuthenticated(to, from, next) {
     if (!store.getters.isAuthenticated)
@@ -33,7 +34,7 @@ export default new Router({
             component: home
         },
         {
-            path: `/video/:id?`,
+            path: '/video/:id?',
             name: 'video',
             component: videoPage
         },
@@ -47,6 +48,18 @@ export default new Router({
             name: 'register',
             component: register,
             beforeEnter: ifNotAuthenticated
+        },
+        {
+            path: '/account',
+            name: 'account',
+            component: account,
+            beforeEnter: ifAuthenticated
+        },
+        {
+            path: '/playlists',
+            name: 'playlists',
+            component: playlists,
+            beforeEnter: ifAuthenticated
         }
     ]
 });

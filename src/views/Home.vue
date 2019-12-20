@@ -3,7 +3,7 @@
     <div v-if="loading" class="m-auto pt-5">
       <b-spinner label="Loading..."></b-spinner>
     </div>
-    <b-row class="py-md-5 py-3">
+    <b-row class="py-lg-4 py-3">
       <b-col v-for="video in videos.slice(0, max)" :key="video.id" cols="12" md="3">
         <video-preview class="mb-3" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views" :preview="video.preview"></video-preview>
       </b-col>
