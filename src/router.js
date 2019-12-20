@@ -5,8 +5,24 @@ import home from './views/Home'
 import videoPage from './views/VideoPage'
 import search from './views/Search'
 import register from './views/Register'
+import store from './store'
 
 Vue.use(Router);
+
+/*
+function ifAuthenticated(to, from, next) {
+    if (store.getters.isAuthenticated)
+        next();
+    else
+        next('/');
+}*/
+
+function ifNotAuthenticated(to, from, next) {
+    if (!store.getters.isAuthenticated)
+        next();
+    else
+        next('/');
+}
 
 export default new Router({
     mode: 'history',
@@ -29,7 +45,8 @@ export default new Router({
         {
             path: '/register',
             name: 'register',
-            component: register
+            component: register,
+            beforeEnter: ifNotAuthenticated
         }
     ]
 });

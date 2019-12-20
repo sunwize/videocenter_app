@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as axios from 'axios'
 import VuexPersistence from 'vuex-persist'
+import router from './router'
 
 Vue.use(Vuex);
 
@@ -30,6 +31,8 @@ export default new Vuex.Store({
         logout({commit}) {
             return new Promise(resolve => {
                 commit('setUser', null);
+                router.push('/');
+                router.go();
                 resolve();
             });
         },
@@ -44,6 +47,8 @@ export default new Vuex.Store({
                         id: user.id,
                         email: user.email
                     });
+                    router.push('/');
+                    router.go();
                     resolve(res);
                 }).catch(err => {
                     commit('setUser', null);

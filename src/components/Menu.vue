@@ -36,15 +36,16 @@
                             <span class="pl-4">Déconnexion</span>
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
-                    <div v-b-modal.sign-in-modal class="signin" v-else>
+                    <div v-b-modal.login-modal class="signin" v-else>
                         <icon icon="user" class="mr-2"></icon>
                         <span class="link" to="/signin">Se connecter</span>
                     </div>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <b-modal ref="signin" id="sign-in-modal" title="Se connecter" hide-footer>
-            <sign-in-form :before-sign-in="beforeSignIn" :before-sign-up="beforeSignUp"></sign-in-form>
+
+        <b-modal ref="signin" id="login-modal" title="Se connecter" hide-footer>
+            <login-form></login-form>
         </b-modal>
     </div>
 </template>
@@ -71,12 +72,6 @@
                     this.$router.push('/search/' + this.search);
                 else
                     event.preventDefault();
-            },
-            beforeSignIn() {
-                this.$refs.signin.hide();
-            },
-            beforeSignUp() {
-                this.$refs.signin.hide();
             }
         }
     }

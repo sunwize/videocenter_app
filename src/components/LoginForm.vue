@@ -1,8 +1,8 @@
 <template>
-    <form @submit="signIn">
+    <form @submit="login">
         <b-form-input v-model="email" class="mb-3" placeholder="Email" type="email" maxlength="250" trim required></b-form-input>
         <b-form-input v-model="password" class="mb-3" placeholder="Mot de passe" type="password" maxlength="250" trim required></b-form-input>
-        <b-button @click="signUp" class="btn-sign-up" variant="outline-dark">Créer un compte</b-button>
+        <b-button @click="register" class="btn-sign-up" variant="outline-dark">Créer un compte</b-button>
         <b-button type="submit" class="float-right" variant="dark">Se connecter</b-button>
     </form>
 </template>
@@ -10,10 +10,6 @@
 <script>
     export default {
         name: "SignInForm",
-        props: {
-            beforeSignUp: Function,
-            beforeSignIn: Function
-        },
         data() {
             return {
                 email: null,
@@ -21,15 +17,15 @@
             }
         },
         methods: {
-            signIn(event) {
+            login(event) {
                 event.preventDefault();
-                this.beforeSignIn();
                 this.$store.dispatch('login', { email: this.email, password: this.password })
                     .then(() => {
-                        this.$forceUpdate();
-                    }).catch(err => {
+                        this.$bvModal.hide('login-modal');
+                    })
+                    .catch(err => {
                         // eslint-disable-next-line no-console
-                        console.log('erreur: ', err);
+                        console.log(err);
                         this.$swal({
                             icon: 'error',
                             title: 'Oops...',
@@ -37,9 +33,9 @@
                         });
                     });
             },
-            signUp() {
-                this.beforeSignUp();
+            register() {
                 this.$router.push('/register');
+                this.$bvModal.hide('login-modal');
             }
         }
     }

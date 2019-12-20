@@ -14,7 +14,7 @@
                     <b-button v-if="isAuthenticated" to="/account" size="md" variant="link">
                         <icon icon="user"></icon>
                     </b-button>
-                    <b-button v-else size="md" variant="link" v-b-modal.sign-in-modal>
+                    <b-button v-else size="md" variant="link" v-b-modal.login-modal>
                         <icon icon="sign-in-alt"></icon>
                     </b-button>
                 </b-nav-form>
@@ -57,8 +57,8 @@
             </router-link>
         </div>
 
-        <b-modal ref="signin" id="sign-in-modal" title="Se connecter" hide-footer>
-            <sign-in-form :before-sign-up="beforeSignUp" :before-sign-in="beforeSignIn"></sign-in-form>
+        <b-modal ref="signin" id="login-modal" title="Se connecter" hide-footer>
+            <login-form></login-form>
         </b-modal>
     </div>
 </template>
@@ -101,12 +101,6 @@
                     this.$router.push('/search/' + this.search);
                 else
                     event.preventDefault();
-            },
-            beforeSignIn() {
-                this.$refs.signin.hide();
-            },
-            beforeSignUp() {
-                this.$refs.signin.hide();
             }
         }
     }
