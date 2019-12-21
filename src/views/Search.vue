@@ -4,7 +4,7 @@
             <b-spinner label="Loading..."></b-spinner>
         </div>
         <div v-for="video in videos" :key="video.id" class="mx-auto mb-2" :class="!isMobileDevice() ? 'w-75' : ''">
-            <video-preview :sided="!isMobileDevice()" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views" :preview="video.preview"></video-preview>
+            <video-preview :sided="!isMobileDevice()" :video="video"></video-preview>
         </div>
     </b-container>
 </template>

@@ -5,7 +5,7 @@
     </div>
     <b-row class="py-lg-4 py-3">
       <b-col v-for="video in videos.slice(0, max)" :key="video.id" cols="12" md="3">
-        <video-preview class="mb-3" :id="video.id" :title="video.title" :channel="video.channelTitle" :views="video.views" :preview="video.preview"></video-preview>
+        <video-preview class="mb-3" :video="video" :on-click-plus-button="openPlaylistsModal"></video-preview>
       </b-col>
       <div v-if="max < 48 && videos.length > 0" @click="loadMore" class="plus mx-auto mb-4 mb-lg-0 mt-0 mt-lg-3 pb-4">
         PLUS
@@ -43,6 +43,10 @@
       },
       loadMore() {
         this.max += 8;
+      },
+      openPlaylistsModal(video) {
+        this.$bvModal.show('playlists-modal');
+        this.$store.commit('setVideoToAdd', video.id);
       }
     }
   }

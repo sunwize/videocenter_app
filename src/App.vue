@@ -5,6 +5,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <playlists-modal v-if="isAuthenticated()"></playlists-modal>
   </div>
 </template>
 
@@ -24,6 +25,9 @@
     methods: {
       isMobileDevice() {
         return this.$store.getters.isMobileDevice;
+      },
+      isAuthenticated() {
+        return this.$store.getters.isAuthenticated;
       }
     }
   }

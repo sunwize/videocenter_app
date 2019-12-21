@@ -1,20 +1,20 @@
 <template>
     <div>
-        <div v-if="!sided" @click="$router.push('/video/' + id)" class="preview-container">
-            <b-img class="preview" :src="preview"></b-img>
-            <p class="title">{{ title }}</p>
-            <p v-if="addToPlaylist" @click.stop="addToPlaylist" class="plus"><icon icon="plus"></icon></p>
-            <p class="details">{{ channel }} • {{ kFormat(views) }} vues</p>
+        <div v-if="!sided" @click="$router.push('/video/' + video.id)" class="preview-container">
+            <b-img class="preview" :src="video.preview"></b-img>
+            <p class="title">{{ video.title }}</p>
+            <p v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus"><icon icon="plus"></icon></p>
+            <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
         </div>
-        <div v-else @click="$router.push('/video/' + id)" class="sided-preview">
+        <div v-else @click="$router.push('/video/' + video.id)" class="sided-preview">
             <span class="left-side">
-                <b-img class="preview" :src="preview"></b-img>
+                <b-img class="preview" :src="video.preview"></b-img>
             </span>
             <span class="right-side">
-                <p class="title">{{ decodeXML(title) }}</p>
-                <p class="details">{{ channel }} • {{ kFormat(views) }} vues</p>
+                <p class="title">{{ decodeXML(video.title) }}</p>
+                <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
             </span>
-            <span v-if="addToPlaylist" @click.stop="addToPlaylist" class="plus-button">
+            <span v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus-button">
                 <div class="m-auto" style="height: auto">
                     <icon icon="plus"></icon>
                 </div>
@@ -29,17 +29,21 @@
     export default {
         name: "VideoPlayer",
         props: {
-            id: String,
-            title: String,
-            channel: String,
-            views: String,
-            preview: String,
+            video: {
+                type: Object,
+                required: true
+            },
             sided: {
                 type: Boolean,
                 default: false
             },
-            addToPlaylist: {
+            onClickPlusButton: {
                 type: Function
+            }
+        },
+        computed: {
+            showPlusButton() {
+                return this.onClickPlusButton && this.$store.getters.isAuthenticated;
             }
         },
         methods: {
@@ -65,11 +69,13 @@
         transition-timing-function: ease-out;
         text-align: left;
 
-        &:hover, &:focus, &:active {
-            transform: translateY(-8px);
+        @media (min-width: 1000px) {
+            &:hover, &:focus, &:active {
+                transform: translateY(-8px);
 
-            .plus {
-                visibility: visible;
+                .plus {
+                    visibility: visible;
+                }
             }
         }
 

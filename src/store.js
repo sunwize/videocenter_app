@@ -12,7 +12,8 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
     state: {
-        user: null
+        user: null,
+        videoToAdd: ''
     },
     getters: {
         isMobileDevice() {
@@ -23,11 +24,17 @@ export default new Vuex.Store({
         },
         currentUser(state) {
             return state.user;
+        },
+        currentVideoToAdd(state) {
+            return state.videoToAdd;
         }
     },
     mutations: {
         setUser(state, user) {
             state.user = user;
+        },
+        setVideoToAdd(state, video) {
+            state.videoToAdd = video;
         }
     },
     actions: {
