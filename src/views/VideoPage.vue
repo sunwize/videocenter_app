@@ -1,5 +1,5 @@
 <template>
-    <b-container class="pt-0 pt-md-4 px-0 px-lg-4 overflow-hidden">
+    <b-container v-if="video" class="pt-0 pt-md-4 px-0 px-lg-4 overflow-hidden">
         <div class="video-container">
             <iframe class="video" :src="'https://www.youtube.com/embed/' + video.id + '/?autoplay=1'"
                     frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -42,7 +42,7 @@
         name: "VideoPage",
         data() {
             return {
-                video: {},
+                video: null,
                 descriptionVisible: !this.$store.getters.isMobileDevice
             }
         },
@@ -54,12 +54,10 @@
         },
         methods: {
             loadVideo() {
-                this.video = {};
+                this.video = null;
                 axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/${this.$route.params.id}`)
                 .then(res => {
                     this.video = res.data;
-                    // eslint-disable-next-line no-console
-                    console.log(this.video);
                 }).catch(err => {
                     // eslint-disable-next-line no-console
                     console.log(err);

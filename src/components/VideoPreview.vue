@@ -2,7 +2,7 @@
     <div>
         <div v-if="!sided" @click="$router.push('/video/' + video.id)" class="preview-container">
             <b-img class="preview" :src="video.preview"></b-img>
-            <p class="title">{{ video.title }}</p>
+            <p class="title">{{ decodeXML(video.title) }}</p>
             <p v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus"><icon icon="plus"></icon></p>
             <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
         </div>

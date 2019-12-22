@@ -4,7 +4,7 @@
             <b-spinner label="Loading..."></b-spinner>
         </div>
         <div v-for="video in videos" :key="video.id" class="mx-auto mb-2" :class="!isMobileDevice() ? 'w-75' : ''">
-            <video-preview :sided="!isMobileDevice()" :video="video"></video-preview>
+            <video-preview :sided="!isMobileDevice()" :video="video" :on-click-plus-button="openPlaylistsModal"></video-preview>
         </div>
     </b-container>
 </template>
@@ -43,6 +43,10 @@
             },
             isMobileDevice() {
                 return this.$store.getters.isMobileDevice;
+            },
+            openPlaylistsModal(video) {
+                this.$bvModal.show('playlists-modal');
+                this.$store.commit('setVideoToAdd', video.id);
             }
         }
     }

@@ -13,6 +13,7 @@ import VueSwal from 'vue-swal'
 import VideoPreview from "./components/VideoPreview"
 import SignInForm from "./components/LoginForm"
 import PlaylistsModal from "./components/PlaylistsModal";
+import PlaylistPreview from "./components/PlaylistPreview";
 
 library.add(fas);
 
@@ -23,6 +24,7 @@ Vue.component('icon', FontAwesomeIcon);
 Vue.component('video-preview', VideoPreview);
 Vue.component('login-form', SignInForm);
 Vue.component('playlists-modal', PlaylistsModal);
+Vue.component('playlist-preview', PlaylistPreview);
 
 Vue.config.productionTip = false;
 
