@@ -1,13 +1,12 @@
 <template>
     <b-container v-if="video" class="pt-0 pt-md-4 px-0 px-lg-4 overflow-hidden">
         <div class="video-container">
-            <iframe class="video" :src="'https://www.youtube.com/embed/' + video.id + '/?autoplay=1'"
-                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
+            <video-player class="position-absolute w-100 h-100" style="top: 0; left: 0;" :video-id="video.id" host="youtube"></video-player>
         </div>
-        <div class="pl-2 pl-md-0">
+        <div class="pl-2 pl-md-0 position-relative">
             <h2 class="title">{{ video.title }}</h2>
             <p class="views">{{ formatViews(video.views) }} vues • {{ moment(video.date).locale('fr').format('D MMMM YYYY') }}</p>
+            <div @click="openPlaylistsModal" class="add-icon"><icon icon="plus"></icon></div>
         </div>
         <hr class="mb-0">
         <div class="pl-2 pl-md-0 channel">
@@ -36,7 +35,7 @@
 <script>
     import * as axios from 'axios'
     import moment from 'moment'
-    import {spaceFormat, kFormat} from "@/helpers/Utils";
+    import {spaceFormat, kFormat} from '../helpers/Utils';
 
     export default {
         name: "VideoPage",
@@ -77,6 +76,10 @@
             },
             showDescription() {
                 this.descriptionVisible = !this.descriptionVisible;
+            },
+            openPlaylistsModal() {
+                this.$bvModal.show('playlists-modal');
+                this.$store.commit('setVideoToAdd', this.video.id);
             }
         }
     }
@@ -92,17 +95,17 @@
 
     .video {
         border: 0;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        top: 0;
         width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
     }
 
     .title {
         text-align: left;
         padding-top: 0.2em;
-        font-size: 20pt;
+        font-size: 15pt;
     }
 
     .views {
@@ -110,6 +113,17 @@
         margin-bottom: 0;
         color: rgba(255, 255, 255, 0.6);
         font-size: 12pt;
+    }
+
+    .add-icon {
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+        cursor: pointer;
+
+        &:hover {
+            color: rgba(255, 255, 255, 0.5);
+        }
     }
 
     .channel {

@@ -2,9 +2,7 @@
   <div id="app" class="dark-theme">
     <Menu v-if="!isMobileDevice()"></Menu>
     <MobileMenu v-else></MobileMenu>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
     <playlists-modal v-if="isAuthenticated()"></playlists-modal>
   </div>
 </template>

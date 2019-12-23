@@ -1,24 +1,28 @@
 <template>
     <div>
         <div v-if="!sided" @click="$router.push('/video/' + video.id)" class="preview-container">
-            <b-img class="preview" :src="video.preview"></b-img>
-            <p class="title">{{ decodeXML(video.title) }}</p>
-            <p v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus"><icon icon="plus"></icon></p>
-            <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
+            <div :class="animated ? 'animated' : ''">
+                <b-img class="preview" :src="video.preview"></b-img>
+                <p class="title">{{ decodeXML(video.title) }}</p>
+                <p v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus"><icon icon="plus"></icon></p>
+                <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
+            </div>
         </div>
         <div v-else @click="$router.push('/video/' + video.id)" class="sided-preview">
-            <span class="left-side">
-                <b-img class="preview" :src="video.preview"></b-img>
-            </span>
-            <span class="right-side">
-                <p class="title">{{ decodeXML(video.title) }}</p>
-                <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
-            </span>
-            <span v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus-button">
-                <div class="m-auto" style="height: auto">
-                    <icon icon="plus"></icon>
-                </div>
-            </span>
+            <div :class="animated ? 'animated' : ''">
+                <span class="left-side">
+                    <b-img class="preview" :src="video.preview"></b-img>
+                </span>
+                    <span class="right-side">
+                    <p class="title">{{ decodeXML(video.title) }}</p>
+                    <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
+                </span>
+                    <span v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus-button">
+                    <div class="m-auto" style="height: auto">
+                        <icon icon="plus"></icon>
+                    </div>
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -27,7 +31,7 @@
     import {kFormat, decodeXML} from "@/helpers/Utils";
 
     export default {
-        name: "VideoPlayer",
+        name: "VideoPreview",
         props: {
             video: {
                 type: Object,
@@ -39,6 +43,10 @@
             },
             onClickPlusButton: {
                 type: Function
+            },
+            animated: {
+                type: Boolean,
+                default: true
             }
         },
         computed: {
@@ -64,17 +72,20 @@
 
     .preview-container {
         cursor: pointer;
-        transition-duration: 0.3s;
-        transition-property: transform;
-        transition-timing-function: ease-out;
         text-align: left;
 
-        @media (min-width: 1000px) {
-            &:hover, &:focus, &:active {
-                transform: translateY(-8px);
+        .animated {
+            transition-duration: 0.3s;
+            transition-property: transform;
+            transition-timing-function: ease-out;
 
-                .plus {
-                    visibility: visible;
+            @media (min-width: 1000px) {
+                &:hover, &:focus, &:active {
+                    transform: translateY(-8px);
+
+                    .plus {
+                        visibility: visible;
+                    }
                 }
             }
         }
@@ -120,15 +131,20 @@
     .sided-preview {
         display: flex;
         cursor: pointer;
-        transition-duration: 0.3s;
-        transition-property: transform;
-        transition-timing-function: ease-out;
 
-        &:hover, &:focus, &:active {
-            transform: translateX(-10px);
+        .animated {
+            display: flex;
+            width: 100%;
+            transition-duration: 0.3s;
+            transition-property: transform;
+            transition-timing-function: ease-out;
 
-            .plus-button {
-                visibility: visible;
+            &:hover, &:focus, &:active {
+                transform: translateX(-10px);
+
+                .plus-button {
+                    visibility: visible;
+                }
             }
         }
 
