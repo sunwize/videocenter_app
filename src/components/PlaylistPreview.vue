@@ -8,7 +8,7 @@
                     <div><icon icon="video"></icon></div>
                 </div>
             </div>
-            <div v-if="hasVideos" class="watch-all">
+            <div v-if="hasVideos" @click="$router.push('/playlists/watch/' + playlist.id)" class="watch-all">
                 <div style="padding-top: 25%">
                     <icon class="mr-2" icon="play"></icon>Tout regarder
                 </div>

@@ -8,6 +8,7 @@ import search from './views/Search'
 import register from './views/Register'
 import account from './views/Account'
 import playlists from './views/Playlists'
+import playlistPage from './views/PlaylistPage'
 
 Vue.use(Router);
 
@@ -59,6 +60,12 @@ export default new Router({
             path: '/playlists',
             name: 'playlists',
             component: playlists,
+            beforeEnter: ifAuthenticated
+        },
+        {
+            path: '/playlists/watch/:id?',
+            name: 'playlist-page',
+            component: playlistPage,
             beforeEnter: ifAuthenticated
         }
     ]
