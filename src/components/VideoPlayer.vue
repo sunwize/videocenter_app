@@ -8,7 +8,7 @@
         <div v-if="showDetails">
             <div class="pl-2 pl-md-0 position-relative">
                 <h2 class="title">{{ video.title }}</h2>
-                <p class="views">{{ formatViews(video.views) }} vues • {{ moment(video.date).locale('fr').format('D MMMM YYYY') }}</p>
+                <p class="views">{{ formatViews(video.views) }} vues • {{ video.date | moment('D MMMM YYYY') }}</p>
                 <div @click="openPlaylistsModal" class="add-icon"><icon icon="plus"></icon></div>
             </div>
             <hr class="mb-0">
@@ -82,11 +82,22 @@
         },
         mounted() {
             this.loadVideo();
+            this.updateHistory();
         },
         activated() {
             this.loadVideo();
+            this.updateHistory();
         },
         methods: {
+            updateHistory() {
+                axios.post(`${process.env.VUE_APP_API_ADDRESS}/histories/update`, {
+                    user_id: this.$store.getters.currentUser.id,
+                    video_id: this.videoId
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+            },
             loadVideo() {
                 axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/${this.videoId}`)
                     .then(res => {

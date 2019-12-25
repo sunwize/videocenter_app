@@ -10,6 +10,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueSwal from 'vue-swal'
 import VueYoutube from 'vue-youtube'
+import VueMoment from 'vue-moment'
+import moment from 'moment'
+import('moment/locale/fr')
 
 import VideoPreview from "./components/VideoPreview"
 import SignInForm from "./components/LoginForm"
@@ -22,6 +25,9 @@ library.add(fas);
 Vue.use(BootstrapVue);
 Vue.use(VueSwal);
 Vue.use(VueYoutube);
+Vue.use(VueMoment, {
+  moment
+});
 
 Vue.component('icon', FontAwesomeIcon);
 Vue.component('video-preview', VideoPreview);

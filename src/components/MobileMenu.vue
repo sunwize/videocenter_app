@@ -2,7 +2,7 @@
     <div>
         <b-navbar v-if="!searchMode" class="top-navbar" toggleable="lg" type="dark">
             <b-img height="30" :src="require('../assets/img/logo.png')" class="pr-2"></b-img>
-            <b-navbar-brand href="#">Video Center</b-navbar-brand>
+            <b-navbar-brand href="#">Chika TV</b-navbar-brand>
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
@@ -51,9 +51,9 @@
                 <icon icon="list"></icon>
                 <div class="text">Playlists</div>
             </router-link>
-            <router-link class="link" to="/contacts">
-                <icon icon="users"></icon>
-                <div class="text">Contacts</div>
+            <router-link class="link" to="/histories">
+                <icon icon="history"></icon>
+                <div class="text">Historique</div>
             </router-link>
         </div>
 

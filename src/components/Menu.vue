@@ -4,7 +4,7 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="mr-auto">
                     <b-img @click="reach('/')" height="30" :src="require('../assets/img/logo.png')" class="menu-logo"></b-img>
-                    <b-navbar-brand to="/">Video Center</b-navbar-brand>
+                    <b-navbar-brand to="/">Chika TV</b-navbar-brand>
                 </b-navbar-nav>
 
                 <!-- Center aligned nav items -->
@@ -30,6 +30,10 @@
                         <b-dropdown-item to="/playlists">
                             <span class="dropdown-icon"><icon icon="list"></icon></span>
                             <span class="pl-4">Playlists</span>
+                        </b-dropdown-item>
+                        <b-dropdown-item to="/histories">
+                            <span class="dropdown-icon"><icon icon="history"></icon></span>
+                            <span class="pl-4">Historique</span>
                         </b-dropdown-item>
                         <b-dropdown-item @click="$store.dispatch('logout')">
                             <span class="dropdown-icon" style="font-size: 14pt;"><icon style="position: absolute; top: 2px" icon="sign-out-alt"></icon></span>
