@@ -1,15 +1,57 @@
 <template>
-    <b-container class="pt-0 pt-md-4 px-0 px-lg-4 overflow-hidden">
-        <video-player v-model="videoId"></video-player>
-    </b-container>
+    <b-row class="w-100 m-0 pt-lg-4 px-lg-4 overflow-hidden">
+        <b-col cols="12" lg="8" class="px-0 px-lg-4">
+            <video-player v-model="videoId"></video-player>
+        </b-col>
+        <b-col cols="12" lg="4" class="pl-lg-0">
+            <div v-for="video in relatedVideos" :key="video.id" class="mb-3">
+                <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
+            </div>
+        </b-col>
+    </b-row>
 </template>
 
 <script>
+    import * as axios from 'axios'
+
     export default {
         name: "VideoPage",
+        data() {
+            return {
+                relatedVideos: []
+            }
+        },
+        watch: {
+            $route: {
+                deep: true,
+                handler() {
+                    this.loadRelatedVideos();
+                }
+            }
+        },
         computed: {
             videoId() {
                 return this.$route.params.id;
+            }
+        },
+        mounted() {
+            this.loadRelatedVideos();
+        },
+        activated() {
+            this.loadRelatedVideos();
+        },
+        methods: {
+            loadRelatedVideos() {
+                axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/related-videos/${this.videoId}`)
+                .then(res => {
+                    this.relatedVideos = res.data;
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+            },
+            isMobileDevice() {
+                return this.$store.getters.isMobileDevice;
             }
         }
     }

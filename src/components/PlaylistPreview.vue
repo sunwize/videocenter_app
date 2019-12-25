@@ -18,7 +18,7 @@
             <div class="title">{{ playlist.title }}</div>
             <div class="date">Créée le {{ moment(playlist.date).locale('fr').format('D MMMM YYYY') }}</div>
             <div v-if="onEdit !== null" @click.stop="onEdit(playlist)" class="edit-button">
-                <icon icon="pencil-alt"></icon>
+                <icon icon="ellipsis-h"></icon>
             </div>
         </div>
     </div>
@@ -103,8 +103,8 @@
 
             .edit-button {
                 position: absolute;
-                top: 2px;
-                right: 5px;
+                bottom: -5px;
+                right: 0;
                 font-size: 15pt;
                 visibility: hidden;
                 color: rgba(255, 255, 255, 0.5);
@@ -112,7 +112,9 @@
 
                 @media (max-width: 1000px) {
                     visibility: visible;
-                    right: 10px;
+                    right: 12px;
+                    bottom: auto;
+                    top: 0;
                 }
             }
         }

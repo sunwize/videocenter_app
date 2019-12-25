@@ -5,7 +5,7 @@
                 <b-button @click="openPlaylistCreation" class="float-lg-left text-white border-0" variant="outline-dark"><icon icon="plus"></icon> Créer une playlist</b-button>
             </div>
 
-            <b-col cols="12" lg="4" v-for="playlist in playlists" :key="playlist.id" class="mb-4 px-0 px-lg-3">
+            <b-col cols="12" lg="3" v-for="playlist in playlists" :key="playlist.id" class="mb-4 px-0 px-lg-3">
                 <div class="playlist-preview">
                     <playlist-preview :playlist="playlist" :on-edit="openPlaylistModal"></playlist-preview>
                     <div @click="deletePlaylist(playlist)" class="delete-icon"><icon icon="trash"></icon></div>

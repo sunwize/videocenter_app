@@ -27,7 +27,7 @@
                 </b-row>
             </div>
             <hr class="mt-0">
-            <div class="pl-2 pl-md-0" style="padding-bottom: 80px">
+            <div class="pl-2 pl-md-0" :class="descriptionVisible ? 'pb-3' : ''">
                 <b-collapse id="description" v-model="descriptionVisible" class="description">
                     {{ video.description }}
                 </b-collapse>

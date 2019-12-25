@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="!sided" @click="$router.push('/video/' + video.id)" class="preview-container">
+        <div v-if="!sided" @click="reach" class="preview-container">
             <div :class="animated ? 'animated' : ''">
                 <b-img class="preview" :src="video.preview"></b-img>
                 <p class="title">{{ decodeXML(video.title) }}</p>
@@ -8,16 +8,16 @@
                 <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
             </div>
         </div>
-        <div v-else @click="$router.push('/video/' + video.id)" class="sided-preview">
-            <div :class="animated ? 'animated' : ''">
+        <div v-else @click="reach" class="sided-preview">
+            <div class="w-100 d-flex" :class="animated ? 'animated' : ''">
                 <span class="left-side">
                     <b-img class="preview" :src="video.preview"></b-img>
                 </span>
-                    <span class="right-side">
+                <span class="right-side">
                     <p class="title">{{ decodeXML(video.title) }}</p>
                     <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
                 </span>
-                    <span v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus-button">
+                <span v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus-button">
                     <div class="m-auto" style="height: auto">
                         <icon icon="plus"></icon>
                     </div>
@@ -47,7 +47,8 @@
             animated: {
                 type: Boolean,
                 default: true
-            }
+            },
+            onClick: Function
         },
         computed: {
             showPlusButton() {
@@ -60,6 +61,13 @@
             },
             decodeXML(text) {
                 return decodeXML(text);
+            },
+            reach() {
+                if (this.onClick) {
+                    this.onClick(this.video);
+                    return;
+                }
+                this.$router.push('/video/' + this.video.id);
             }
         }
     }
@@ -162,7 +170,7 @@
 
             .title {
                 text-align: left;
-                font-size: 14pt;
+                font-size: 12pt;
             }
 
             .details {
