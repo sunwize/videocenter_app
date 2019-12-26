@@ -67,12 +67,18 @@
                 return this.$store.getters.isAuthenticated;
             }
         },
+        mounted() {
+            this.search = this.$route.params.keywords;
+        },
+        activated() {
+            this.search = this.$route.params.keywords;
+        },
         methods: {
             reach(path) {
                 this.$router.push(path).catch(() => {});
             },
             research(event) {
-                if(this.search != '')
+                if(this.search != '' && this.search !== null && this.search != undefined)
                     this.$router.push('/search/' + this.search);
                 else
                     event.preventDefault();

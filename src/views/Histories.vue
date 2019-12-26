@@ -1,9 +1,9 @@
 <template>
-    <b-container v-if="videos" class="pt-4">
+    <b-container v-if="videos" class="mt-3 mt-lg-4 pb-5 pb-lg-0">
         <h5 class="text-left mb-3"><icon class="mr-2" icon="history"></icon>Historique</h5>
         <div v-for="video in videosByDate" :key="video.id" class="mb-3">
             <div class="text-left">{{ video.timestamp | moment('from', 'now') }}</div>
-            <video-preview :video="video" :sided="true"></video-preview>
+            <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
         </div>
     </b-container>
 </template>
@@ -58,6 +58,9 @@
                     // eslint-disable-next-line no-console
                     console.log(err);
                 });
+            },
+            isMobileDevice() {
+                return this.$store.getters.isMobileDevice;
             }
         }
     }

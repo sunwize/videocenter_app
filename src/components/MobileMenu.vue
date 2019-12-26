@@ -32,15 +32,16 @@
                     <b-form-input v-model="search" ref="search" autocomplete="off" placeholder="Rechercher sur Video Center"></b-form-input>
                 </b-form>
             </b-navbar-nav>
-            <div v-if="search.length > 0" @click="search = ''" class="icon-delete"><icon icon="times"></icon></div>
+            <div v-if="!search || search.length > 0" @click="search = ''" class="icon-delete"><icon icon="times"></icon></div>
         </b-navbar>
-        <b-list-group v-if="searchMode" class="history">
+
+        <!-- <b-list-group v-if="searchMode" class="history">
             <b-list-group-item @click="search = link" v-for="link in filteredHistory" :key="link">
                 <icon class="icon-history" icon="history"></icon>
                 <span class="text">{{ link }}</span>
                 <span class="icon-box"><icon class="icon-set" icon="arrow-left"></icon></span>
             </b-list-group-item>
-        </b-list-group>
+        </b-list-group> -->
 
         <div class="bottom-navbar">
             <router-link class="link" to="/#">
@@ -68,7 +69,7 @@
         name: "MobileMenu",
         data() {
             return {
-                search: "",
+                search: '',
                 searchMode: false,
                 history: [
                     "Le roi des rats",
@@ -85,6 +86,12 @@
                 return this.$store.getters.isAuthenticated;
             }
         },
+        mounted() {
+            this.search = this.$route.params.keywords;
+        },
+        activated() {
+            this.search = this.$route.params.keywords;
+        },
         methods: {
             openSearchMode() {
                 this.searchMode = true;
@@ -94,7 +101,6 @@
             },
             exitSearchMode() {
                 this.searchMode = false;
-                this.search = "";
             },
             research(event) {
                 if(this.search != '')

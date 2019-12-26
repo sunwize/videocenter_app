@@ -1,5 +1,5 @@
 <template>
-    <b-container class="pt-3">
+    <b-container class="pt-3 pb-5 pb-lg-0">
         <div v-if="loading" class="m-auto pt-5">
             <b-spinner label="Loading..."></b-spinner>
         </div>
@@ -32,8 +32,6 @@
                 axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/search/${this.$route.params.keywords}`)
                 .then(res => {
                     this.videos = res.data;
-                    // eslint-disable-next-line no-console
-                    console.log(res);
                     this.loading = false;
                 }).catch(err => {
                     // eslint-disable-next-line no-console
