@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import * as axios from 'axios';
+    import Network from "../helpers/Network";
 
     export default {
         name: "PlaylistsModal",
@@ -57,7 +57,7 @@
         },
         methods: {
             createPlaylist() {
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/create`, {
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/create`, {
                     user_id: this.user.id,
                     title: this.newPlaylist.title
                 }).then(() => {
@@ -90,7 +90,7 @@
                 else
                     playlist.videos.splice(playlist.videos.indexOf(this.videoId, 1));
 
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
                     id: playlist.id,
                     title: playlist.title,
                     videos: playlist.videos
@@ -108,7 +108,7 @@
                 });
             },
             loadPlaylists() {
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
                 .then(res => {
                     this.playlists = res.data;
                 }).catch(err => {

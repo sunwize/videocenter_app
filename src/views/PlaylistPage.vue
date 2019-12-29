@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import * as axios from 'axios'
+    import Network from "../helpers/Network";
 
     export default {
         name: "PlaylistPage",
@@ -44,11 +44,11 @@
             loadPlaylist() {
                 const playlist_id = this.$route.params.id;
 
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/${playlist_id}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/${playlist_id}`)
                 .then(res => {
                     this.playlist = res.data;
 
-                    axios.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/videos/${playlist_id}`)
+                    Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/videos/${playlist_id}`)
                     .then(res => {
                         this.playlistVideos = res.data;
                     }).catch(err => {

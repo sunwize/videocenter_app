@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import * as axios from "axios";
+    import Network from "../helpers/Network";
     import moment from "moment";
 
     export default {
@@ -94,7 +94,7 @@
         },
         methods: {
             createPlaylist() {
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/create`, {
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/create`, {
                     user_id: this.user.id,
                     title: this.creation.title
                 }).then(() => {
@@ -122,7 +122,7 @@
                 });
             },
             loadPlaylists() {
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
                     .then(res => {
                         this.playlists = res.data;
 
@@ -133,7 +133,7 @@
                                 playlist.preview = null;
 
                                 if (playlist.videos.length > 0) {
-                                    axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/details/${playlist.videos.toString()}`)
+                                    Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/details/${playlist.videos.toString()}`)
                                     .then(res => {
                                         playlist.videos = res.data;
                                     }).catch(err => {
@@ -181,7 +181,7 @@
                     let videos = [];
                     for (let video of this.modal.playlist.videos)
                         videos.push(video.id);
-                    axios.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
+                    Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
                         id: this.modal.playlist.id,
                         title: this.modal.playlist.title,
                         videos: videos
@@ -217,7 +217,7 @@
                     dangerMode: true
                 }).then(result => {
                     if (result) {
-                        axios.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/delete`, {
+                        Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/delete`, {
                             id: id
                         }).then(() => {
                             this.$bvModal.hide('playlist-edition');
@@ -241,7 +241,7 @@
                         let videos = this.modal.playlist.videos;
                         videos.splice(videos.indexOf(video), 1);
 
-                        axios.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
+                        Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
                             id: this.modal.playlist.id,
                             title: null,
                             videos: videos.map(v => v.id)

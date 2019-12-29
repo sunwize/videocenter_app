@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as axios from 'axios'
+import Network from "./helpers/Network"
 import VuexPersistence from 'vuex-persist'
 import router from './router'
 
@@ -48,14 +48,15 @@ export default new Vuex.Store({
         },
         login({commit}, login) {
             return new Promise((resolve, reject) => {
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/users/login`, {
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/users/login`, {
                     email: login.email,
                     password: login.password
                 }).then(res => {
                     const user = res.data;
                     commit('setUser', {
                         id: user.id,
-                        email: user.email
+                        email: user.email,
+                        token: user.token
                     });
                     router.push('/');
                     router.go();

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import * as axios from 'axios';
+    import Network from "../helpers/Network";
 
     export default {
         name: "Search",
@@ -29,7 +29,7 @@
         methods: {
             searchVideos() {
                 this.loading = true;
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/search/${this.$route.params.keywords}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/search/${this.$route.params.keywords}`)
                 .then(res => {
                     this.videos = res.data;
                     this.loading = false;
@@ -38,6 +38,7 @@
                     console.log(err);
                     this.loading = false;
                 });
+
             },
             isMobileDevice() {
                 return this.$store.getters.isMobileDevice;

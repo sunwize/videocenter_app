@@ -39,7 +39,7 @@
 <script>
     import moment from 'moment'
     import {spaceFormat, kFormat} from '../helpers/Utils';
-    import * as axios from "axios";
+    import Network from '../helpers/Network';
 
     export default {
         name: "VideoPlayer",
@@ -90,7 +90,10 @@
         },
         methods: {
             updateHistory() {
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/histories/update`, {
+                if (!this.$store.getters.isAuthenticated)
+                    return;
+
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/histories/update`, {
                     user_id: this.$store.getters.currentUser.id,
                     video_id: this.videoId
                 }).catch(err => {
@@ -99,7 +102,7 @@
                 });
             },
             loadVideo() {
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/${this.videoId}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/${this.videoId}`)
                     .then(res => {
                         this.video = res.data;
                     }).catch(err => {

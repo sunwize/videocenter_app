@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import * as axios from 'axios'
+    import Network from "../helpers/Network";
 
     export default {
         name: "VideoPage",
@@ -42,7 +42,7 @@
         },
         methods: {
             loadRelatedVideos() {
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/related-videos/${this.videoId}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/related-videos/${this.videoId}`)
                 .then(res => {
                     this.relatedVideos = res.data;
                 }).catch(err => {

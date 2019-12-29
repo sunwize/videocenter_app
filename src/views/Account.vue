@@ -9,14 +9,14 @@
                         <template v-slot:prepend>
                             <b-input-group-text><icon icon="video"></icon></b-input-group-text>
                         </template>
-                        <b-form-input placeholder="80 vidéos regardées" readonly></b-form-input>
+                        <b-form-input :placeholder="histories.length + ' vidéos regardées'" readonly></b-form-input>
                     </b-input-group>
 
                     <b-input-group class="mb-4">
                         <template v-slot:prepend>
-                            <b-input-group-text><icon icon="list"></icon></b-input-group-text>
+                            <b-input-group-text style="width: 44px"><icon style="font-size: 14pt" icon="list"></icon></b-input-group-text>
                         </template>
-                        <b-form-input placeholder="5 playlists créées" readonly></b-form-input>
+                        <b-form-input :placeholder="playlists.length + ' playlists créées'" readonly></b-form-input>
                     </b-input-group>
 
                     <b-button @click="openModal" class="mx-auto d-block" variant="primary">Modifier mon mot de passe</b-button>
@@ -66,16 +66,27 @@
 </template>
 
 <script>
-    import * as axios from 'axios'
+    import Network from "../helpers/Network";
 
     export default {
         name: "Account",
         activated() {
+            this.loadHistories();
+            this.loadPlaylists();
             this.changePassword = {
                 password: null,
                     newPassword: null,
                     confirm: null
-            }
+            };
+        },
+        mounted() {
+            this.loadHistories();
+            this.loadPlaylists();
+            this.changePassword = {
+                password: null,
+                newPassword: null,
+                confirm: null
+            };
         },
         data() {
             return {
@@ -83,7 +94,9 @@
                     password: null,
                     newPassword: null,
                     confirm: null
-                }
+                },
+                histories: [],
+                playlists: []
             }
         },
         computed: {
@@ -116,13 +129,31 @@
             }
         },
         methods: {
+            loadHistories() {
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/histories/all/${this.user.id}`)
+                .then(res => {
+                    this.histories = res.data;
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+            },
+            loadPlaylists() {
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
+                .then(res => {
+                    this.playlists = res.data;
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
+            },
             updatePassword(event) {
                 if (!this.passwordState || !this.newPasswordState || !this.confirmationState) {
                     event.preventDefault();
                     return;
                 }
 
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/users/change-password`, {
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/users/change-password`, {
                     email: this.user.email,
                     password: this.changePassword.password,
                     newPassword: this.changePassword.newPassword

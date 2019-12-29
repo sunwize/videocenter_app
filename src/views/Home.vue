@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import * as axios from 'axios'
+  import Network from "../helpers/Network";
 
   export default {
     name: 'Home',
@@ -32,12 +32,12 @@
     methods: {
       loadVideos() {
         this.loading = true;
-        axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/trends/48`).then(res => {
+        Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/trends/48`).then(res => {
           this.videos = res.data;
           this.loading = false;
         }).catch(err => {
           // eslint-disable-next-line no-console
-          console.log(err);
+          console.log(err.response);
           this.loading = false;
         });
       },

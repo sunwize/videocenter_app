@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import * as axios from 'axios'
+    import Network from "../helpers/Network";
 
     export default {
         name: "Histories",
@@ -34,7 +34,7 @@
         },
         methods: {
             loadHistory() {
-                axios.get(`${process.env.VUE_APP_API_ADDRESS}/histories/all/${this.$store.getters.currentUser.id}`)
+                Network.get(`${process.env.VUE_APP_API_ADDRESS}/histories/all/${this.$store.getters.currentUser.id}`)
                 .then(res => {
                     this.histories = res.data;
 
@@ -44,7 +44,7 @@
                     let ids = '';
                     this.histories.forEach(h => ids += h.video_id + ',');
 
-                    axios.get(`${process.env.VUE_APP_API_ADDRESS}/videos/details/${ids}`)
+                    Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/details/${ids}`)
                     .then(res => {
                         this.videos = res.data;
 

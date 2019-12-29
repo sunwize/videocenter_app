@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import * as axios from 'axios';
+    import Network from "../helpers/Network";
 
     export default {
         name: "Register",
@@ -88,7 +88,7 @@
                     return;
                 }
 
-                axios.post(`${process.env.VUE_APP_API_ADDRESS}/users/register`, {
+                Network.post(`${process.env.VUE_APP_API_ADDRESS}/users/register`, {
                     email: this.email,
                     password: this.password
                 }).then(() => {
