@@ -1,9 +1,17 @@
 <template>
-    <b-container v-if="videos" class="mt-3 mt-lg-4 pb-5 pb-lg-0">
+    <b-container class="mt-3 mt-lg-4 pb-5 pb-lg-0">
         <h5 class="text-left mb-3"><icon class="mr-2" icon="history"></icon>Historique</h5>
-        <div v-for="video in videosByDate" :key="video.id" class="mb-3">
-            <div class="text-left">{{ video.timestamp | moment('from', 'now') }}</div>
-            <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
+        <div v-if="loading" class="m-auto pt-5">
+            <b-spinner label="Loading..."></b-spinner>
+        </div>
+        <div v-if="videos">
+            <div v-for="video in videosByDate" :key="video.id" class="mb-3">
+                <div class="text-left">{{ video.timestamp | moment('from', 'now') }}</div>
+                <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
+            </div>
+        </div>
+        <div v-if="!videos && !loading" class="pt-3">
+            Vous n'avez visionné aucune vidéo
         </div>
     </b-container>
 </template>
@@ -16,7 +24,8 @@
         data() {
             return {
                 videos: null,
-                histories: null
+                histories: null,
+                loading: false
             }
         },
         computed: {
@@ -34,6 +43,7 @@
         },
         methods: {
             loadHistory() {
+                this.loading = true;
                 Network.get(`${process.env.VUE_APP_API_ADDRESS}/histories/all/${this.$store.getters.currentUser.id}`)
                 .then(res => {
                     this.histories = res.data;
@@ -50,11 +60,15 @@
 
                         for (let i = 0; i < this.videos.length; i++)
                             this.videos[i].timestamp = this.histories[i].date;
+
+                        this.loading = false;
                     }).catch(err => {
+                        this.loading = false;
                         // eslint-disable-next-line no-console
                         console.log(err);
                     });
                 }).catch(err => {
+                    this.loading = false;
                     // eslint-disable-next-line no-console
                     console.log(err);
                 });

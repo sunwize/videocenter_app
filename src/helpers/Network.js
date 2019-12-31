@@ -20,12 +20,16 @@ export default class Network {
                 axios.post(url, params, options).then(res => {
                     resolve(res);
                 }).catch(err => {
+                    if (err.response.status === 401)
+                        store.dispatch('logout');
                     reject(err);
                 });
             } else if (method === 'GET') {
                 axios.get(url, params, options).then(res => {
                     resolve(res);
                 }).catch(err => {
+                    if (err.response.status === 401)
+                        store.dispatch('logout');
                     reject(err);
                 });
             }
