@@ -19,7 +19,7 @@
                     </b-col>
                     <b-col class="text-left my-auto pl-0" cols="5" md="6" lg="11">
                         <div class="channel-title">{{ video.channelTitle }}</div>
-                        <div class="channel-subscribers">{{ formatSubscribers(video.author.subscribers) }}</div>
+                        <div class="channel-subscribers">{{ formatSubscribers(video.author.subscribers) }} abonnés</div>
                     </b-col>
                     <b-col class="ml-auto mt-md-4" style="margin-top: 3%" cols="3" md="3" v-if="isMobileDevice()" @click="showDescription">
                         <icon style="font-size: 1.3em" :class="descriptionVisible ? 'extended' : ''" icon="caret-up"></icon>

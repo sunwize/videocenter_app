@@ -5,7 +5,8 @@
                 <b-img class="preview" :src="video.preview"></b-img>
                 <p class="title">{{ decodeXML(video.title) }}</p>
                 <p v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus"><icon icon="plus"></icon></p>
-                <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
+                <p class="details">{{ video.channelTitle }}</p>
+                <p class="details">{{ kFormat(video.views) }} vues • {{ video.date | moment('from', 'now') }}</p>
             </div>
         </div>
         <div v-else @click="reach" class="sided-preview">
@@ -15,7 +16,8 @@
                 </span>
                 <span class="right-side">
                     <p class="title">{{ decodeXML(video.title) }}</p>
-                    <p class="details">{{ video.channelTitle }} • {{ kFormat(video.views) }} vues</p>
+                    <p class="details">{{ video.channelTitle }}</p>
+                    <p class="details">{{ kFormat(video.views) }} vues • {{ video.date | moment('from', 'now') }}</p>
                 </span>
                 <span v-if="showPlusButton" @click.stop="onClickPlusButton(video)" class="plus-button">
                     <div class="m-auto" style="height: auto">

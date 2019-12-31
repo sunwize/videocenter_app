@@ -4,7 +4,7 @@
             <video-player v-model="videoId"></video-player>
         </b-col>
         <b-col cols="12" lg="4" class="pl-lg-0">
-            <div v-for="video in relatedVideos" :key="video.id" class="mb-3">
+            <div v-for="video in relatedVideos" :key="video.id" class="mb-2">
                 <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
             </div>
         </b-col>
