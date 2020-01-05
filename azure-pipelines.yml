@@ -20,6 +20,12 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+- task: CopyFiles@2
+  inputs:
+    Contents: 'server.js'
+    TargetFolder: 'dist'
+    OverWrite: true
+
 - task: PublishBuildArtifacts@1
   inputs:
     artifactName: dist
