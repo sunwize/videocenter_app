@@ -33,11 +33,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Azure pour les étudiants (2a963393-399c-465f-856a-4b1c49c25b91)'
-    appType: 'webAppLinux'
-    appName: 'videocenter-app'
-    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    startUpCommand: 'npm run serve'
