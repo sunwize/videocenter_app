@@ -20,13 +20,19 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-- task: CopyFiles@2
+- task: ArchiveFiles@2
   inputs:
-    Contents: 'server.js'
-    TargetFolder: 'dist'
-    OverWrite: true
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: true
 
 - task: PublishBuildArtifacts@1
   inputs:
-    artifactName: dist
-    pathtoPublish: 'dist'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure pour les étudiants (2a963393-399c-465f-856a-4b1c49c25b91)'
+    appType: 'webAppLinux'
+    appName: 'videocenter-app'
+    package: '$(System.DefaultWorkingDirectory)'
+    customWebConfig: '-Handler iisnode -NodeStartFile server.js -appType node'
