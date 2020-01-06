@@ -17,7 +17,6 @@ steps:
 
 - script: |
     npm install
-    npm install -g serve
     npm run build
   displayName: 'npm install and build'
 
@@ -25,6 +24,12 @@ steps:
   inputs:
     command: 'install'
     workingDir: 'server'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'server'
+    customCommand: 'npm install -g serve'
 
 - task: CopyFiles@2
   inputs:
