@@ -44,11 +44,11 @@
             loadPlaylist() {
                 const playlist_id = this.$route.params.id;
 
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/${playlist_id}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/${playlist_id}`)
                 .then(res => {
                     this.playlist = res.data;
 
-                    Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/videos/${playlist_id}`)
+                    Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/videos/${playlist_id}`)
                     .then(res => {
                         this.playlistVideos = res.data;
                     }).catch(err => {

@@ -42,7 +42,7 @@
         },
         methods: {
             loadRelatedVideos() {
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/related-videos/${this.videoId}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/related-videos/${this.videoId}`)
                 .then(res => {
                     this.relatedVideos = res.data;
                 }).catch(err => {

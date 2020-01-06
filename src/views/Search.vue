@@ -29,7 +29,7 @@
         methods: {
             searchVideos() {
                 this.loading = true;
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/search/${this.$route.params.keywords}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/search/${this.$route.params.keywords}`)
                 .then(res => {
                     this.videos = res.data;
                     this.loading = false;

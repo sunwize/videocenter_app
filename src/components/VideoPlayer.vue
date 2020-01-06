@@ -93,7 +93,7 @@
                 if (!this.$store.getters.isAuthenticated)
                     return;
 
-                Network.post(`${process.env.VUE_APP_API_ADDRESS}/histories/update`, {
+                Network.post(`${process.env.VUE_APP_API_USERS_SERVICE}/histories/update`, {
                     user_id: this.$store.getters.currentUser.id,
                     video_id: this.videoId
                 }).catch(err => {
@@ -102,7 +102,7 @@
                 });
             },
             loadVideo() {
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/${this.videoId}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/${this.videoId}`)
                     .then(res => {
                         this.video = res.data;
                     }).catch(err => {

@@ -88,7 +88,7 @@
                     return;
                 }
 
-                Network.post(`${process.env.VUE_APP_API_ADDRESS}/users/register`, {
+                Network.post(`${process.env.VUE_APP_API_USERS_SERVICE}/users/register`, {
                     email: this.email,
                     password: this.password
                 }).then(() => {

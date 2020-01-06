@@ -130,7 +130,7 @@
         },
         methods: {
             loadHistories() {
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/histories/all/${this.user.id}`)
+                Network.get(`${process.env.VUE_APP_API_USERS_SERVICE}/histories/all/${this.user.id}`)
                 .then(res => {
                     this.histories = res.data;
                 }).catch(err => {
@@ -139,7 +139,7 @@
                 });
             },
             loadPlaylists() {
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/all/${this.user.id}`)
                 .then(res => {
                     this.playlists = res.data;
                 }).catch(err => {
@@ -153,7 +153,7 @@
                     return;
                 }
 
-                Network.post(`${process.env.VUE_APP_API_ADDRESS}/users/change-password`, {
+                Network.post(`${process.env.VUE_APP_API_USERS_SERVICE}/users/change-password`, {
                     email: this.user.email,
                     password: this.changePassword.password,
                     newPassword: this.changePassword.newPassword

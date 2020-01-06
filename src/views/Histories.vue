@@ -44,7 +44,7 @@
         methods: {
             loadHistory() {
                 this.loading = true;
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/histories/all/${this.$store.getters.currentUser.id}`)
+                Network.get(`${process.env.VUE_APP_API_USERS_SERVICE}/histories/all/${this.$store.getters.currentUser.id}`)
                 .then(res => {
                     this.histories = res.data;
 
@@ -54,7 +54,7 @@
                     let ids = '';
                     this.histories.forEach(h => ids += h.video_id + ',');
 
-                    Network.get(`${process.env.VUE_APP_API_ADDRESS}/videos/details/${ids}`)
+                    Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/details/${ids}`)
                     .then(res => {
                         this.videos = res.data;
 

@@ -57,7 +57,7 @@
         },
         methods: {
             createPlaylist() {
-                Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/create`, {
+                Network.post(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/create`, {
                     user_id: this.user.id,
                     title: this.newPlaylist.title
                 }).then(() => {
@@ -90,7 +90,7 @@
                 else
                     playlist.videos.splice(playlist.videos.indexOf(this.videoId, 1));
 
-                Network.post(`${process.env.VUE_APP_API_ADDRESS}/playlists/update`, {
+                Network.post(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/update`, {
                     id: playlist.id,
                     title: playlist.title,
                     videos: playlist.videos
@@ -108,7 +108,7 @@
                 });
             },
             loadPlaylists() {
-                Network.get(`${process.env.VUE_APP_API_ADDRESS}/playlists/all/${this.user.id}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/all/${this.user.id}`)
                 .then(res => {
                     this.playlists = res.data;
                 }).catch(err => {

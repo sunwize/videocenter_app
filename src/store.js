@@ -48,7 +48,7 @@ export default new Vuex.Store({
         },
         login({commit}, login) {
             return new Promise((resolve, reject) => {
-                Network.post(`${process.env.VUE_APP_API_ADDRESS}/users/login`, {
+                Network.post(`${process.env.VUE_APP_API_USERS_SERVICE}/users/login`, {
                     email: login.email,
                     password: login.password
                 }).then(res => {
