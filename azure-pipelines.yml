@@ -20,9 +20,9 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-- task: AzureFileCopy@3
+- task: AzureFileCopy@2
   inputs:
-    SourcePath: 'dist'
+    SourcePath: '$(System.DefaultWorkingDirectory)/dist'
     azureSubscription: 'Azure pour les étudiants (2a963393-399c-465f-856a-4b1c49c25b91)'
     Destination: 'AzureBlob'
     storage: 'videocenterapp'
