@@ -23,15 +23,15 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'server'
+    SourceFolder: 'dist'
     Contents: '**'
-    TargetFolder: 'dist'
+    TargetFolder: 'server/dist'
     OverWrite: true
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'dist'
-    ArtifactName: 'dist'
+    PathtoPublish: 'server'
+    ArtifactName: 'server'
 
 - task: AzureWebApp@1
   inputs:
