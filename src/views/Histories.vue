@@ -5,8 +5,8 @@
             <b-spinner label="Loading..."></b-spinner>
         </div>
         <div v-if="videos">
-            <div v-for="video in videosByDate" :key="video.id" class="mb-3">
-                <div class="text-left">{{ video.timestamp | moment('from', 'now') }}</div>
+            <div v-for="video in videosByDate" :key="video.id" class="mb-3 position-relative">
+                <div class="text-left position-absolute px-2" style="background-color: rgba(0,0,0,0.8); bottom: 0; left: 0"><icon icon="clock" class="mr-2"></icon>{{ video.timestamp | moment('from', 'now') }}</div>
                 <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
             </div>
         </div>
