@@ -80,7 +80,7 @@
                 return this.modal.editionMode.title;
             },
             modalVideos() {
-                return this.modal.playlist.videos.filter(v => v.title.toLowerCase().indexOf(this.modal.search.toLowerCase()) !== -1);
+                return this.modal.playlist.videos.filter(v => v.title.toLowerCase().indexOf(this.modal.search.toLowerCase()) !== -1).reverse();
             },
             hasVideos() {
                 return this.modal.playlist.videos && this.modal.playlist.videos.length > 0;

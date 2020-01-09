@@ -47,10 +47,14 @@
                 Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/${playlist_id}`)
                 .then(res => {
                     this.playlist = res.data;
+                    if (this.playlist && this.playlist.videos)
+                        this.playlist.videos = this.playlist.videos.reverse();
 
                     Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/videos/${playlist_id}`)
                     .then(res => {
                         this.playlistVideos = res.data;
+                        if (this.playlistVideos && this.playlistVideos.length > 0)
+                            this.playlistVideos = this.playlistVideos.reverse();
                     }).catch(err => {
                         // eslint-disable-next-line no-console
                         console.log(err);
@@ -61,14 +65,29 @@
                 });
             },
             nextVideo() {
-                if (this.index < this.playlist.videos.length-1)
+                if (this.index < this.playlist.videos.length-1) {
                     this.index++;
+                    this.updateHistory();
+                }
             },
             jumpVideo(video) {
                 this.index = this.playlist.videos.indexOf(video.id);
+                this.updateHistory();
             },
             isMobileDevice() {
                 return this.$store.getters.isMobileDevice;
+            },
+            updateHistory() {
+                if (!this.$store.getters.isAuthenticated)
+                    return;
+
+                Network.post(`${process.env.VUE_APP_API_USERS_SERVICE}/histories/update`, {
+                    user_id: this.$store.getters.currentUser.id,
+                    video_id: this.currentVideo
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                });
             }
         }
     }

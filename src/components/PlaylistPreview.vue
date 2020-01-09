@@ -43,10 +43,11 @@
         },
         methods: {
             playlistPreview() {
-                if (this.playlist.videos.length === 0)
+                let length = this.playlist.videos.length;
+                if (length === 0)
                     return 'https://cdn57.androidauthority.net/wp-content/uploads/2015/09/youtube-featured.png';
                 else
-                    return this.playlist.videos[0].preview;
+                    return this.playlist.videos[length-1].preview;
             },
             moment() {
                 return moment();
