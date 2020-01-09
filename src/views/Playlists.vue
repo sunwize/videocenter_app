@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <b-row v-if="playlists" class="px-lg-4 m-0 w-100 pb-5 pb-lg-0">
+    <b-container>
+        <b-row v-if="playlists" class="m-0 w-100 pb-5 pb-lg-0">
             <div class="w-100 pl-lg-3 my-2 my-lg-3">
                 <b-button @click="openPlaylistCreation" class="float-lg-left text-white border-0" variant="outline-dark"><icon icon="plus"></icon> Créer une playlist</b-button>
             </div>
@@ -48,7 +48,7 @@
                 </b-row>
             </b-modal>
         </b-row>
-    </div>
+    </b-container>
 </template>
 
 <script>
