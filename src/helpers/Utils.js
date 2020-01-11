@@ -16,7 +16,7 @@ export function spaceFormat(x) {
 }
 
 export function decodeXML(encodedString) {
-    var textArea = document.createElement('textarea');
+    let textArea = document.createElement('textarea');
     textArea.innerHTML = encodedString;
     return textArea.value;
 }

@@ -1,9 +1,12 @@
 <template>
     <div v-if="video">
         <div class="video-container">
-            <youtube @ready="playVideo" @ended="onEnded" v-if="host === 'youtube'" class="position-absolute"
+            <youtube @ready="playVideo" @ended="onEnded" v-if="video.host === 'youtube'" class="position-absolute"
                      style="width: 100%; height: 100%; top: 0; right: 0" ref="youtube" :player-vars="{autoplay: 1}"
                      :video-id="video.id"></youtube>
+            <video v-else @canplay="playVideo" ref="azure" :src="`https://videocenterapp.blob.core.windows.net/videos/${video.id}1.mp4`" class="position-absolute w-100" style="top: 0; left: 0" controls>
+                Votre navigateur ne gère pas l'élément <code>video</code>.
+            </video>
         </div>
         <div v-if="showDetails">
             <div class="pl-2 pl-md-0 position-relative">
@@ -14,12 +17,12 @@
             <hr class="mb-0">
             <div class="pl-2 pl-md-0 channel">
                 <b-row>
-                    <b-col cols="3" md="2" lg="1">
+                    <b-col v-if="video.author" cols="3" md="2" lg="1">
                         <b-img class="rounded-circle w-100" :src="video.author.preview"></b-img>
                     </b-col>
-                    <b-col class="text-left my-auto pl-0" cols="5" md="6" lg="11">
+                    <b-col class="text-left my-auto" :class="video.author ? 'pl-0' : 'pl-3'" cols="5" md="6" lg="11">
                         <div class="channel-title">{{ video.channelTitle }}</div>
-                        <div class="channel-subscribers">{{ formatSubscribers(video.author.subscribers) }} abonnés</div>
+                        <div v-if="video.author" class="channel-subscribers">{{ formatSubscribers(video.author.subscribers) }} abonnés</div>
                     </b-col>
                     <b-col class="ml-auto mt-md-4" style="margin-top: 3%" cols="3" md="3" v-if="isMobileDevice()" @click="showDescription">
                         <icon style="font-size: 1.3em" :class="descriptionVisible ? 'extended' : ''" icon="caret-up"></icon>
@@ -48,10 +51,6 @@
                 type: String,
                 required: true
             },
-            host: {
-                type: String,
-                default: 'youtube'
-            },
             showDetails: {
                 type: Boolean,
                 default: true
@@ -75,6 +74,9 @@
         computed: {
             youtubePlayer() {
                 return this.$refs.youtube.player;
+            },
+            azurePlayer() {
+                return this.$refs.azure;
             },
             videoId() {
                 return this.value;
@@ -102,22 +104,26 @@
                 });
             },
             loadVideo() {
-                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/${this.videoId}`)
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/get/${this.videoId}`)
                     .then(res => {
                         this.video = res.data;
                     }).catch(err => {
-                    // eslint-disable-next-line no-console
-                    console.log(err);
-                });
+                        // eslint-disable-next-line no-console
+                        console.log(err);
+                    });
             },
             playVideo() {
-                if (this.host === 'youtube') {
+                if (this.video.host === 'youtube') {
                     this.youtubePlayer.playVideo();
+                } else if (this.video.host === 'azure') {
+                    this.azurePlayer.play();
                 }
             },
             pauseVideo() {
-                if (this.host === 'youtube') {
+                if (this.video.host === 'youtube') {
                     this.youtubePlayer.pauseVideo();
+                } else if (this.video.host === 'azure') {
+                    this.azurePlayer.pause();
                 }
             },
             isMobileDevice() {

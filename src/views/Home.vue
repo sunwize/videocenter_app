@@ -32,7 +32,7 @@
     methods: {
       loadVideos() {
         this.loading = true;
-        Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/trends/48`).then(res => {
+        Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/trends`).then(res => {
           this.videos = res.data;
           this.loading = false;
         }).catch(err => {
