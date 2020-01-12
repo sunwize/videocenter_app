@@ -4,7 +4,7 @@
             <youtube @ready="playVideo" @ended="onEnded" v-if="video.host === 'youtube'" class="position-absolute"
                      style="width: 100%; height: 100%; top: 0; right: 0" ref="youtube" :player-vars="{autoplay: 1}"
                      :video-id="video.id"></youtube>
-            <video v-else @canplay="playVideo" ref="azure" :src="`https://videocenterapp.blob.core.windows.net/videos/${video.id}1.mp4`" class="position-absolute w-100" style="top: 0; left: 0" controls>
+            <video v-else @canplay="playVideo" ref="azure" :src="`https://videocenterapp.blob.core.windows.net/videos/${video.id}_azure.mp4`" class="position-absolute w-100" style="top: 0; left: 0" controls>
                 Votre navigateur ne gère pas l'élément <code>video</code>.
             </video>
         </div>

@@ -22,13 +22,20 @@
 
             <b-modal @hide="resetPlaylistModal" body-class="pt-2" id="playlist-edition" title="Informations de la playlist" size="lg" hide-footer>
                 <div class="position-relative">
-                    <b-form @submit.prevent="updatePlaylist">
-                        <b-input v-model="modal.playlist.title" ref="playlist_title" class="playlist-title bg-transparent"
-                                 :readonly="!editingTitle" required></b-input>
-
-                        <b-button v-if="!editingTitle" type="submit" variant="outline-dark" class="edit-title"><icon icon="pen"></icon></b-button>
-                        <b-button v-if="editingTitle" type="submit" variant="outline-dark" class="edit-title"><icon icon="save"></icon></b-button>
-                    </b-form>
+                    <b-row>
+                        <b-col cols="10" class="m-auto">
+                            <b-input @blur="updatePlaylist" v-model="modal.playlist.title" ref="playlist_title" class="playlist-title bg-transparent" required></b-input>
+                        </b-col>
+                        <b-col cols="2" class="m-auto pt-1">
+                            <div class="float-right d-flex">
+                                <span class="mr-2 text-white">
+                                    <b-spinner v-if="modal.uploading" small style="margin-bottom: 2px" label="Loading..."></b-spinner>
+                                    <icon v-else icon="cloud-download-alt"></icon>
+                                </span>
+                                <b-form-checkbox @change="saveVideos" :checked="playlistSaved" :disabled="modal.uploading" name="check-button" class="d-inline" style="margin-right: -7px" switch></b-form-checkbox>
+                            </div>
+                        </b-col>
+                    </b-row>
                 </div>
 
                 <div class="playlist-date">Créée le {{ moment(modal.playlist.date).locale('fr').format('D MMMM YYYY') }}</div>
@@ -65,11 +72,10 @@
                 },
                 modal: {
                     playlist: {},
-                    editionMode: {
-                        title: false
-                    },
-                    search: ''
-                }
+                    search: '',
+                    uploading: false
+                },
+                azureVideos: []
             }
         },
         computed: {
@@ -84,15 +90,46 @@
             },
             hasVideos() {
                 return this.modal.playlist.videos && this.modal.playlist.videos.length > 0;
+            },
+            playlistSaved() {
+                if (!this.modal.playlist.videos)
+                    return false;
+
+                for (let video of this.modal.playlist.videos) {
+                    if (this.azureVideos.indexOf(video.id) === -1)
+                        return false;
+                }
+
+                return true;
             }
         },
         mounted() {
             this.loadPlaylists();
+            this.loadAzureVideos();
         },
         activated() {
             this.loadPlaylists();
+            this.loadAzureVideos();
         },
         methods: {
+            saveVideos(save) {
+                if (this.playlistSaved)
+                    return;
+
+                if (save) {
+                    this.modal.uploading = true;
+                    Network.post(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/upload`, {
+                        ids: this.modal.playlist.videos.map(v => v.id)
+                    }).then(() => {
+                        this.modal.uploading = false;
+                        this.loadAzureVideos();
+                    }).catch(err => {
+                        this.modal.uploading = false;
+                        // eslint-disable-next-line no-console
+                        console.log(err);
+                    });
+                }
+            },
             createPlaylist() {
                 Network.post(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/create`, {
                     user_id: this.user.id,
@@ -143,7 +180,6 @@
                                 }
                             }
                         }
-
                     }).catch(err => {
                     // eslint-disable-next-line no-console
                     console.log(err);
@@ -152,6 +188,15 @@
                         title: 'Oops...',
                         text: 'Une erreur est survenue'
                     });
+                });
+            },
+            loadAzureVideos() {
+                // Get Azure videos
+                Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/stored-videos`).then(res => {
+                    this.azureVideos = res.data;
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
                 });
             },
             moment() {
@@ -168,43 +213,32 @@
                 this.$bvModal.show('playlist-edition');
             },
             resetPlaylistModal() {
-                this.modal = {
-                    playlist: {},
-                    editionMode: {
-                        title: false
-                    },
-                    search: ''
-                };
+                this.modal.search = '';
             },
             updatePlaylist() {
-                if (this.editingTitle) {
-                    let videos = [];
-                    for (let video of this.modal.playlist.videos)
-                        videos.push(video.id);
-                    Network.post(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/update`, {
-                        id: this.modal.playlist.id,
-                        title: this.modal.playlist.title,
-                        videos: videos
-                    }).then(() => {
-                        this.modal.editionMode.title = false;
-                        this.playlists.filter(p => p.id === this.modal.playlist.id)[0].title = this.modal.playlist.title;
-                    }).catch(err => {
-                        // eslint-disable-next-line no-console
-                        console.log(err);
-                        if (err.response.data.code === 11000) { // Duplicate key
-                            this.$swal({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Une playlist porte déjà ce nom !'
-                            });
-                        }
-                    });
-                } else {
-                    this.modal.editionMode.title = true;
-                    setTimeout(() => {
-                        this.$refs.playlist_title.focus();
-                    }, 100);
+                if (!this.modal.playlist.title || this.modal.playlist.title.length === 0) {
+                    return;
                 }
+                let videos = [];
+                for (let video of this.modal.playlist.videos)
+                    videos.push(video.id);
+                Network.post(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/playlists/update`, {
+                    id: this.modal.playlist.id,
+                    title: this.modal.playlist.title,
+                    videos: videos
+                }).then(() => {
+                    this.playlists.filter(p => p.id === this.modal.playlist.id)[0].title = this.modal.playlist.title;
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                    if (err.response && err.response.data.code === 11000) { // Duplicate key
+                        this.$swal({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Une playlist porte déjà ce nom !'
+                        });
+                    }
+                });
             },
             deletePlaylist(playlist) {
                 const id = playlist.id;

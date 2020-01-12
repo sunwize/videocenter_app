@@ -6,3 +6,13 @@
 .custom-control-label::before {
   background-color: rgba(255, 255, 255, 0.5);
 }
+
+.custom-switch {
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #1db954;
+  }
+
+  .custom-control-label::before {
+    background-color: white;
+  }
+}
