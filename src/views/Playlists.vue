@@ -32,7 +32,8 @@
                                     <b-spinner v-if="modal.uploading" small style="margin-bottom: 2px" label="Loading..."></b-spinner>
                                     <icon v-else icon="cloud-download-alt"></icon>
                                 </span>
-                                <b-form-checkbox @change="saveVideos" :checked="playlistSaved" :disabled="modal.uploading" name="check-button" class="d-inline" style="margin-right: -7px" switch></b-form-checkbox>
+                                <b-form-checkbox @change="saveVideos" :checked="playlistSaved" :disabled="modal.uploading || playlistSaved" v-b-popover.hover.top="'Sauvegarder la playlist sur le cloud'"
+                                                 name="check-button" class="d-inline" style="margin-right: -7px" switch></b-form-checkbox>
                             </div>
                         </b-col>
                     </b-row>
