@@ -6,7 +6,9 @@
         </div>
         <div v-if="videos">
             <div v-for="video in videosByDate" :key="video.id" class="mb-3 position-relative">
-                <div class="text-left position-absolute px-2" style="background-color: rgba(0,0,0,0.8); bottom: 0; left: 0"><icon icon="clock" class="mr-2"></icon>{{ video.timestamp | moment('from', 'now') }}</div>
+                <div class="text-left position-absolute px-2" style="background-color: rgba(0,0,0,0.8); left: 0" :style="isMobileDevice() ? 'top: 0' : 'bottom: 0'">
+                    <icon icon="clock" class="mr-2"></icon>{{ video.timestamp | moment('from', 'now') }}
+                </div>
                 <video-preview :video="video" :sided="!isMobileDevice()" :animated="false"></video-preview>
             </div>
         </div>
@@ -52,7 +54,12 @@
                         return;
 
                     let ids = '';
-                    this.histories.forEach(h => ids += h.video_id + ',');
+                    for (let history of this.histories) {
+                        if (history.video_id)
+                            ids += history.video_id.replace('_azure', '') + ',';
+                    }
+                    // eslint-disable-next-line no-console
+                    console.log(ids);
 
                     Network.get(`${process.env.VUE_APP_API_VIDEOS_SERVICE}/videos/details/${ids}`)
                     .then(res => {
